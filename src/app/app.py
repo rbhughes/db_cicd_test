@@ -8,6 +8,7 @@ w = WorkspaceClient()
 
 
 if st.button(f"Trigger job with ID {JOB_ID}"):
+    print(w)
     try:
         response = w.jobs.run_now(job_id=JOB_ID)
         st.success("Job started successfully!")
