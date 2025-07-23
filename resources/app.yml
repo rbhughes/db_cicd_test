@@ -4,3 +4,6 @@ resources:
       name: "hello-world-app"
       source_code_path: ../src/app
       description: "A Streamlit app that lets users trigger jobs included in this bundle."
+      permissions:
+        - level: CAN_MANAGE
+          service_principal_name: "f00fd441-00ba-4ac5-8119-7839ca115bcd"
