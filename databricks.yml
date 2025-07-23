@@ -4,18 +4,45 @@ bundle:
 include:
   - resources/*.yml
 
-resources:
-  jobs:
-    well-job:
-      name: Well Job
-      tasks:
-        - task_key: run-well-notebook
-          new_cluster:
-            spark_version: 14.3.x-scala2.12
-            node_type_id: i3.xlarge
-            num_workers: 1
-          notebook_task:
-            notebook_path: src/notebooks/well.ipynb
+variables:
+  main_job_id:
+    description: "Main job ID for the application"
+  well_job_id:
+    description: "Well job ID for the application"
+  app_name_suffix:
+    description: "Suffix for app name based on environment"
+
+# resources:
+#   jobs:
+#     well_job:
+#       name: "Well Job"
+#       tasks:
+#         - task_key: run-well-notebook
+#           new_cluster:
+#             spark_version: 14.3.x-scala2.12
+#             node_type_id: i3.xlarge
+#             num_workers: 1
+#           notebook_task:
+#             notebook_path: src/notebooks/well.ipynb
+
+#     main_job:
+#       name: "Main Job"
+#       tasks:
+#         - task_key: run-main-notebook
+#           new_cluster:
+#             spark_version: 14.3.x-scala2.12
+#             node_type_id: i3.xlarge
+#             num_workers: 1
+#           notebook_task:
+#             notebook_path: src/notebooks/main.ipynb
+
+#   apps:
+#     hello-world-app:
+#       name: "hello-world-app${var.app_name_suffix}"
+#       source_code_path: src/app
+#       config:
+#         JOB_ID: "${var.main_job_id}"
+#         WELL_JOB_ID: "${var.well_job_id}"
 
 targets:
   dev:
@@ -23,16 +50,20 @@ targets:
     default: true
     workspace:
       host: https://dbc-6841fdbc-f68b.cloud.databricks.com
-    resources:
-      apps:
-        hello-world-app:
-          name: "hello-world-app-dev"
-          source_code_path: src/app
+    variables:
+      main_job_id: "${resources.jobs.main_job.id}"
+      well_job_id: "${resources.jobs.well_job.id}"
+      app_name_suffix: "-dev"
+
   prod:
     mode: production
     workspace:
       host: https://dbc-6841fdbc-f68b.cloud.databricks.com
       root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      main_job_id: "${resources.jobs.main_job.id}"
+      well_job_id: "${resources.jobs.well_job.id}"
+      app_name_suffix: "-prod"
     permissions:
       - user_name: ${workspace.current_user.userName}
         level: CAN_MANAGE
