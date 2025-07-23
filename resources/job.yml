@@ -4,7 +4,7 @@ resources:
       name: "Well Job"
       permissions:
         - level: CAN_MANAGE
-          service_principal_name: "777f430f-7996-4153-8fce-189c9414c97a"
+          service_principal_name: "f00fd441-00ba-4ac5-8119-7839ca115bcd"
       tasks:
         - task_key: run-well-notebook
           new_cluster:
@@ -14,7 +14,7 @@ resources:
             spark_conf:
               "spark.databricks.cluster.profile": "singleNode"
               "spark.master": "local[*]"
-            custom_tags: # MISSING: This was required
+            custom_tags:
               ResourceClass: SingleNode
           notebook_task:
             notebook_path: ../src/notebooks/well.ipynb
@@ -23,7 +23,7 @@ resources:
       name: "Main Job"
       permissions:
         - level: CAN_MANAGE
-          service_principal_name: "777f430f-7996-4153-8fce-189c9414c97a"
+          service_principal_name: "f00fd441-00ba-4ac5-8119-7839ca115bcd"
       tasks:
         - task_key: run-main-python
           new_cluster:
@@ -33,7 +33,7 @@ resources:
             spark_conf:
               "spark.databricks.cluster.profile": "singleNode"
               "spark.master": "local[*]"
-            custom_tags: # MISSING: This was required
+            custom_tags:
               ResourceClass: SingleNode
           spark_python_task:
             python_file: ../src/job/main.py
