@@ -1,9 +1,0 @@
-command:
-  - streamlit
-  - run
-  - app.py
-env:
-  - name: JOB_ID
-    valueFrom: app-job
-#  - name: DATABRICKS_HOST
-#    value: https://dbc-6841fdbc-f68b.cloud.databricks.com

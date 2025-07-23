@@ -3,11 +3,4 @@ resources:
     hello-world-app:
       name: "hello-world-app"
       source_code_path: ../src/app
-      description: "A Streamlit app that lets users trigger the job included in this bundle."
-
-      resources:
-        - name: "app-job"
-          description: "A job that can be invoked by this app."
-          job:
-            id: ${resources.jobs.hello_world.id}
-            permission: "CAN_MANAGE_RUN"
+      description: "A Streamlit app that lets users trigger jobs included in this bundle."

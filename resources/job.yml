@@ -1,14 +1,39 @@
 resources:
   jobs:
-    hello_world:
-      name: Serverless Hello World job
+    well_job:
+      name: "Well Job"
+      permissions:
+        - level: CAN_MANAGE
+          service_principal_name: "777f430f-7996-4153-8fce-189c9414c97a"
       tasks:
-        - task_key: task
+        - task_key: run-well-notebook
+          new_cluster:
+            spark_version: 14.3.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 0
+            spark_conf:
+              "spark.databricks.cluster.profile": "singleNode"
+              "spark.master": "local[*]"
+            custom_tags: # MISSING: This was required
+              ResourceClass: SingleNode
+          notebook_task:
+            notebook_path: ../src/notebooks/well.ipynb
+
+    main_job:
+      name: "Main Job"
+      permissions:
+        - level: CAN_MANAGE
+          service_principal_name: "777f430f-7996-4153-8fce-189c9414c97a"
+      tasks:
+        - task_key: run-main-python
+          new_cluster:
+            spark_version: 14.3.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 0
+            spark_conf:
+              "spark.databricks.cluster.profile": "singleNode"
+              "spark.master": "local[*]"
+            custom_tags: # MISSING: This was required
+              ResourceClass: SingleNode
           spark_python_task:
             python_file: ../src/job/main.py
-          environment_key: default
-
-      environments:
-        - environment_key: default
-          spec:
-            client: "1"
