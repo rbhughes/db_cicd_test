@@ -49,5 +49,5 @@ if st.button(f"Trigger job with ID {JOB_ID}"):
     except Exception as e:
         st.error(e)
 
-if st.button(f"Run well job"):
+if st.button("Run well job"):
     trigger_well_job()
